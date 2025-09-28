@@ -12,6 +12,10 @@ jobs:
     
     steps:
       - uses: actions/checkout@v3
+
+      - name: Get short SHA
+        id: vars
+        run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
       
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
@@ -36,7 +40,7 @@ jobs:
           context: ./K8S
           file: ./K8S/WebApp/Dockerfile
           push: true
-          tags: mbrostik/k8stest_WebApp
+          tags: mbrostik/k8stest:WebApp-${{ env.SHORT_SHA }}
 
       - name: Build and Push API
         uses: docker/build-push-action@v4
@@ -44,7 +48,7 @@ jobs:
           context: ./K8S
           file: ./K8S/API/Dockerfile
           push: true
-          tags: mbrostik/k8stest_API
+          tags: mbrostik/k8stest:API-${{ env.SHORT_SHA }}
 
       - name: Build and Push AdminPanel
         uses: docker/build-push-action@v4
@@ -52,8 +56,7 @@ jobs:
           context: ./K8S
           file: ./K8S/AdminPanel/Dockerfile
           push: true
-          tags: mbrostik/k8stest_AdminPanel
-
+          tags: mbrostik/k8stest:AdminPanel-${{ env.SHORT_SHA }}
   deploy:
     runs-on: ubuntu-latest
     needs: publish
@@ -67,6 +70,7 @@ jobs:
 
       - name: Deploy to K3s
         run: |
-          kubectl apply -f K8S/k8s/webapp.yaml
-          kubectl apply -f K8S/k8s/api.yaml
-          kubectl apply -f K8S/k8s/adminpanel.yaml
+          export SHORT_SHA=${{ env.SHORT_SHA }}
+          envsubst < K8S/k8s/webapp.yaml | kubectl apply -f -
+          envsubst < K8S/k8s/api.yaml | kubectl apply -f -
+          envsubst < K8S/k8s/adminpanel.yaml | kubectl apply -f -
