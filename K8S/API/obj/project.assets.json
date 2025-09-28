@@ -541,11 +541,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\OverComeItBunchOfProjects\\Personal\\k8s_test\\K8S\\API\\API.csproj",
+      "projectUniqueName": "D:\\OverComeItBunchOfProjects\\Personal\\k8s_test\\k8s_test\\K8S\\API\\API.csproj",
       "projectName": "API",
-      "projectPath": "D:\\OverComeItBunchOfProjects\\Personal\\k8s_test\\K8S\\API\\API.csproj",
+      "projectPath": "D:\\OverComeItBunchOfProjects\\Personal\\k8s_test\\k8s_test\\K8S\\API\\API.csproj",
       "packagesPath": "C:\\Users\\rostd\\.nuget\\packages\\",
-      "outputPath": "D:\\OverComeItBunchOfProjects\\Personal\\k8s_test\\K8S\\API\\obj\\",
+      "outputPath": "D:\\OverComeItBunchOfProjects\\Personal\\k8s_test\\k8s_test\\K8S\\API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

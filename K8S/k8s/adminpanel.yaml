@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin
+  namespace: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: admin
+  template:
+    metadata:
+      labels:
+        app: admin
+    spec:
+      containers:
+        - name: admin
+          image: mbrostik/k8stest:AdminPanel
+          ports:
+            - containerPort: 7294
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo ">> Installing certificates..." && \
+              chmod +x /app/install-certs.sh && \
+              /app/install-certs.sh && \
+              echo ">> Starting AdminApp..." && \
+              dotnet AdminApp.dll
+          volumeMounts:
+            - name: admin-tls
+              mountPath: /certs/deployment/admin
+              readOnly: true
+            - name: ca-tls
+              mountPath: /certs/deployment/ca
+              readOnly: true
+      volumes:
+        - name: admin-tls
+          secret:
+            secretName: admin-tls
+        - name: ca-tls
+          secret:
+            secretName: ca-tls
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: admin-service
+  namespace: frontend
+spec:
+  selector:
+    app: admin
+  ports:
+    - port: 443
+      targetPort: 7294
+      nodePort: 30794
+  type: NodePort

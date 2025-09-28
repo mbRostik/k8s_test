@@ -1,0 +1,56 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+  namespace: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+        - name: webapp
+          image: mbrostik/k8stest:WebApp
+          ports:
+            - containerPort: 7273
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo ">> Installing certificates..." && \
+              chmod +x /app/install-certs.sh && \
+              /app/install-certs.sh && \
+              echo ">> Starting WebApp..." && \
+              dotnet WebApp.dll
+          volumeMounts:
+            - name: webapp-tls
+              mountPath: /certs/deployment/web
+              readOnly: true
+            - name: ca-tls
+              mountPath: /certs/deployment/ca
+              readOnly: true
+      volumes:
+        - name: webapp-tls
+          secret:
+            secretName: webapp-tls
+        - name: ca-tls
+          secret:
+            secretName: ca-tls
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-service
+  namespace: frontend
+spec:
+  selector:
+    app: webapp
+  ports:
+    - port: 443           # cluster-wide port
+      targetPort: 7273    # container port
+      nodePort: 30773     # external port (must be between 30000–32767)
+  type: NodePort

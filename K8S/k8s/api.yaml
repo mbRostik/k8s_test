@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api
+          image: mbrostik/k8stest:ApiApp
+          ports:
+            - containerPort: 7023
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo ">> Installing certificates..." && \
+              chmod +x /app/install-certs.sh && \
+              /app/install-certs.sh && \
+              echo ">> Starting ApiApp..." && \
+              dotnet ApiApp.dll
+          volumeMounts:
+            - name: api-tls
+              mountPath: /certs/deployment/api
+              readOnly: true
+            - name: ca-tls
+              mountPath: /certs/deployment/ca
+              readOnly: true
+      volumes:
+        - name: api-tls
+          secret:
+            secretName: api-tls
+        - name: ca-tls
+          secret:
+            secretName: ca-tls
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-service
+  namespace: backend
+spec:
+  selector:
+    app: api
+  ports:
+    - port: 443
+      targetPort: 7023
+      nodePort: 30723
+  type: NodePort

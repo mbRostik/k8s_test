@@ -105,11 +105,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\OverComeItBunchOfProjects\\Personal\\k8s_test\\K8S\\WebApp\\WebApp.csproj",
+      "projectUniqueName": "D:\\OverComeItBunchOfProjects\\Personal\\k8s_test\\k8s_test\\K8S\\WebApp\\WebApp.csproj",
       "projectName": "WebApp",
-      "projectPath": "D:\\OverComeItBunchOfProjects\\Personal\\k8s_test\\K8S\\WebApp\\WebApp.csproj",
+      "projectPath": "D:\\OverComeItBunchOfProjects\\Personal\\k8s_test\\k8s_test\\K8S\\WebApp\\WebApp.csproj",
       "packagesPath": "C:\\Users\\rostd\\.nuget\\packages\\",
-      "outputPath": "D:\\OverComeItBunchOfProjects\\Personal\\k8s_test\\K8S\\WebApp\\obj\\",
+      "outputPath": "D:\\OverComeItBunchOfProjects\\Personal\\k8s_test\\k8s_test\\K8S\\WebApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
