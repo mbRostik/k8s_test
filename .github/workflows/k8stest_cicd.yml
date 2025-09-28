@@ -9,14 +9,16 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    
+    outputs:
+      short_sha: ${{ steps.vars.outputs.short_sha }}
+
     steps:
       - uses: actions/checkout@v3
 
       - name: Get short SHA
         id: vars
-        run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
-      
+        run: echo "short_sha=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
@@ -40,7 +42,7 @@ jobs:
           context: ./K8S
           file: ./K8S/WebApp/Dockerfile
           push: true
-          tags: mbrostik/k8stest:WebApp-${{ env.SHORT_SHA }}
+          tags: mbrostik/k8stest:WebApp-${{ steps.vars.outputs.short_sha }}
 
       - name: Build and Push API
         uses: docker/build-push-action@v4
@@ -48,7 +50,7 @@ jobs:
           context: ./K8S
           file: ./K8S/API/Dockerfile
           push: true
-          tags: mbrostik/k8stest:API-${{ env.SHORT_SHA }}
+          tags: mbrostik/k8stest:API-${{ steps.vars.outputs.short_sha }}
 
       - name: Build and Push AdminPanel
         uses: docker/build-push-action@v4
@@ -56,7 +58,8 @@ jobs:
           context: ./K8S
           file: ./K8S/AdminPanel/Dockerfile
           push: true
-          tags: mbrostik/k8stest:AdminPanel-${{ env.SHORT_SHA }}
+          tags: mbrostik/k8stest:AdminPanel-${{ steps.vars.outputs.short_sha }}
+
   deploy:
     runs-on: ubuntu-latest
     needs: publish
@@ -69,8 +72,9 @@ jobs:
           echo "${{ secrets.KUBECONFIG_DATA }}" > $HOME/.kube/config
 
       - name: Deploy to K3s
+        env:
+          SHORT_SHA: ${{ needs.publish.outputs.short_sha }}
         run: |
-          export SHORT_SHA=${{ env.SHORT_SHA }}
           envsubst < K8S/k8s/webapp.yaml | kubectl apply -f -
           envsubst < K8S/k8s/api.yaml | kubectl apply -f -
           envsubst < K8S/k8s/adminpanel.yaml | kubectl apply -f -
