@@ -15,8 +15,6 @@ COPY ["AdminPanel/AdminPanel.csproj", "AdminPanel/"]
 RUN dotnet restore "./AdminPanel/AdminPanel.csproj"
 COPY . .
 WORKDIR "/src/AdminPanel"
-COPY AdminPanel/admin.dev.cer admin.dev.cer
-COPY AdminPanel/admin.dev.pfx admin.dev.pfx
 RUN dotnet build "./AdminPanel.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish

@@ -15,8 +15,6 @@ COPY ["WebApp/WebApp.csproj", "WebApp/"]
 RUN dotnet restore "./WebApp/WebApp.csproj"
 COPY . .
 WORKDIR "/src/WebApp"
-COPY WebApp/webapplication.dev.cer webapplication.dev.cer
-COPY WebApp/webapplication.dev.pfx webapplication.dev.pfx
 RUN dotnet build "./WebApp.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish

@@ -16,8 +16,6 @@ COPY ["API/API.csproj", "API/"]
 RUN dotnet restore "./API/API.csproj"
 COPY . .
 WORKDIR "/src/API"
-COPY API/api.dev.cer api.dev.cer
-COPY API/api.dev.pfx api.dev.pfx
 RUN dotnet build "./API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
