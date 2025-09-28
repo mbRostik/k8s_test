@@ -21,7 +21,7 @@ spec:
             - containerPort: 7273
           command: ["dotnet", "WebApp.dll"]
           volumeMounts:
-            - name: admin-tls
+            - name: webapp-tls
               mountPath: /certs/deployment
               readOnly: true
             - name: ca-tls
