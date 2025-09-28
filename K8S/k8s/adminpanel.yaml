@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: admin
-          image: mbrostik/k8stest:AdminPanel
+          image: mbrostik/k8stest:AdminPanel-${SHORT_SHA}
           imagePullPolicy: Always
           ports:
             - containerPort: 7294
