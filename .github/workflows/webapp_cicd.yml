@@ -33,9 +33,10 @@ jobs:
       - name: Build and Push Dockerfile
         uses: docker/build-push-action@v4
         with:
-          context: ./
+          context: ./K8S
           file: ./K8S/WebApp/Dockerfile
           push: true
 
           tags: mbrostik/k8stest:WebApp
+
 
