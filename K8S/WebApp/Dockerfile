@@ -8,12 +8,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates curl openssl && \
     rm -rf /var/lib/apt/lists/*
 
-COPY ./WebApp/K8S.Test.Root.CA.cer /usr/local/share/ca-certificates/K8S.Test.Root.CA.crt
-RUN openssl x509 -inform DER -in /usr/local/share/ca-certificates/K8S.Test.Root.CA.crt \
-    -out /usr/local/share/ca-certificates/K8S.Test.Root.CA.pem && \
-    mv /usr/local/share/ca-certificates/K8S.Test.Root.CA.pem /usr/local/share/ca-certificates/K8S.Test.Root.CA.crt && \
-    update-ca-certificates
-
 FROM mcr.microsoft.com/dotnet/sdk:8.0-noble AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
