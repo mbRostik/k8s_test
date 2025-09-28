@@ -1,10 +1,10 @@
-name: Publish 🚀
+name: Publish & Deploy 🚀
 
 on:
   workflow_dispatch:
   push:
     branches:
-    - main
+      - main
 
 jobs:
   publish:
@@ -30,7 +30,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_LOGIN }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build and Push Dockerfile
+      - name: Build and Push WebApp
         uses: docker/build-push-action@v4
         with:
           context: ./K8S
@@ -38,7 +38,7 @@ jobs:
           push: true
           tags: mbrostik/k8stest:WebApp
 
-      - name: Build and Push Dockerfile
+      - name: Build and Push API
         uses: docker/build-push-action@v4
         with:
           context: ./K8S
@@ -46,10 +46,27 @@ jobs:
           push: true
           tags: mbrostik/k8stest:API
 
-      - name: Build and Push Dockerfile
+      - name: Build and Push AdminPanel
         uses: docker/build-push-action@v4
         with:
           context: ./K8S
           file: ./K8S/AdminPanel/Dockerfile
           push: true
           tags: mbrostik/k8stest:AdminPanel
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: publish
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBECONFIG_DATA }}" > $HOME/.kube/config
+
+      - name: Deploy to K3s
+        run: |
+          kubectl apply -f k8s/webapp.yaml
+          kubectl apply -f k8s/api.yaml
+          kubectl apply -f k8s/admin.yaml
