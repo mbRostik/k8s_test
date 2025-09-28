@@ -36,7 +36,7 @@ jobs:
           context: ./K8S
           file: ./K8S/WebApp/Dockerfile
           push: true
-          tags: mbrostik/k8stest:WebApp
+          tags: mbrostik/k8stest_WebApp
 
       - name: Build and Push API
         uses: docker/build-push-action@v4
@@ -44,7 +44,7 @@ jobs:
           context: ./K8S
           file: ./K8S/API/Dockerfile
           push: true
-          tags: mbrostik/k8stest:API
+          tags: mbrostik/k8stest_API
 
       - name: Build and Push AdminPanel
         uses: docker/build-push-action@v4
@@ -52,7 +52,7 @@ jobs:
           context: ./K8S
           file: ./K8S/AdminPanel/Dockerfile
           push: true
-          tags: mbrostik/k8stest:AdminPanel
+          tags: mbrostik/k8stest_AdminPanel
 
   deploy:
     runs-on: ubuntu-latest
