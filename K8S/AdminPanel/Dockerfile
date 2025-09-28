@@ -26,6 +26,4 @@ RUN dotnet publish "./AdminPanel.csproj" -c $BUILD_CONFIGURATION -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-COPY AdminPanel/admin.dev.pfx ./admin.dev.pfx
-COPY AdminPanel/admin.dev.cer ./admin.dev.cer
 ENTRYPOINT ["dotnet", "AdminPanel.dll"]

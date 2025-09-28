@@ -26,6 +26,4 @@ RUN dotnet publish "./WebApp.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-COPY WebApp/webapplication.dev.pfx ./webapplication.dev.pfx
-COPY WebApp/webapplication.dev.cer ./webapplication.dev.cer
 ENTRYPOINT ["dotnet", "WebApp.dll"]
