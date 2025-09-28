@@ -19,10 +19,10 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 7023
-          command: ["dotnet", "WebApp.dll"]
+          command: ["dotnet", "API.dll"]
           volumeMounts:
             - name: api-tls
-              mountPath: /certs/deployment/api
+              mountPath: /certs/deployment
               readOnly: true
             - name: ca-tls
               mountPath: /certs/deployment/ca

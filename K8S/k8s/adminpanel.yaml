@@ -19,10 +19,10 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 7294
-          command: ["dotnet", "WebApp.dll"]
+          command: ["dotnet", "AdminPanel.dll"]
           volumeMounts:
             - name: admin-tls
-              mountPath: /certs/deployment/admin
+              mountPath: /certs/deployment
               readOnly: true
             - name: ca-tls
               mountPath: /certs/deployment/ca
