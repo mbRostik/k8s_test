@@ -20,6 +20,14 @@ spec:
           ports:
             - containerPort: 7294
           command: ["dotnet", "AdminPanel.dll"]
+          args:
+            - |
+              echo ">> Listing certs.AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA.." && \
+              ls -l /certs/deployment && \
+              echo ">> Listing CA certs..." && \
+              ls -l /certs/deployment/ca && \
+              echo ">> Starting AdminApp..." && \
+              dotnet AdminPanel.dll
           volumeMounts:
             - name: admin-tls
               mountPath: /certs/deployment
