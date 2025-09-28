@@ -24,4 +24,7 @@ RUN dotnet publish "./AdminPanel.csproj" -c $BUILD_CONFIGURATION -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+COPY AdminPanel/install-certs.sh /app/install-certs.sh
+
 ENTRYPOINT ["dotnet", "AdminPanel.dll"]

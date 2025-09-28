@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: mbrostik/k8stest:ApiApp
+          image: mbrostik/k8stest:API
           ports:
             - containerPort: 7023
           command: ["/bin/sh", "-c"]
