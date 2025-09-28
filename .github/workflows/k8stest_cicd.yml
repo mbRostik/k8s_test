@@ -69,4 +69,4 @@ jobs:
         run: |
           kubectl apply -f K8S/k8s/webapp.yaml
           kubectl apply -f K8S/k8s/api.yaml
-          kubectl apply -f K8S/k8s/admin.yaml
+          kubectl apply -f K8S/k8s/adminpanel.yaml
