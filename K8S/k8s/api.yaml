@@ -19,14 +19,7 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 7023
-          command: ["/bin/sh", "-c"]
-          args:
-            - |
-              echo ">> Installing certificates..." && \
-              chmod +x /app/install-certs.sh && \
-              /app/install-certs.sh && \
-              echo ">> Starting ApiApp..." && \
-              dotnet ApiApp.dll
+          command: ["dotnet", "WebApp.dll"]
           volumeMounts:
             - name: api-tls
               mountPath: /certs/deployment/api

@@ -19,14 +19,7 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 7294
-          command: ["/bin/sh", "-c"]
-          args:
-            - |
-              echo ">> Installing certificates..." && \
-              chmod +x /app/install-certs.sh && \
-              /app/install-certs.sh && \
-              echo ">> Starting AdminApp..." && \
-              dotnet AdminApp.dll
+          command: ["dotnet", "WebApp.dll"]
           volumeMounts:
             - name: admin-tls
               mountPath: /certs/deployment/admin
