@@ -16,6 +16,7 @@ spec:
       containers:
         - name: admin
           image: mbrostik/k8stest:AdminPanel
+          imagePullPolicy: Always
           ports:
             - containerPort: 7294
           command: ["/bin/sh", "-c"]

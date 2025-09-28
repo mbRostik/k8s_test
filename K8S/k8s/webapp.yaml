@@ -16,6 +16,7 @@ spec:
       containers:
         - name: webapp
           image: mbrostik/k8stest:WebApp
+          imagePullPolicy: Always
           ports:
             - containerPort: 7273
           command: ["/bin/sh", "-c"]
