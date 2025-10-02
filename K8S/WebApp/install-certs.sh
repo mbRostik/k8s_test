@@ -1,11 +1,19 @@
 #!/bin/sh
 set -e
 
-echo ">> Copying CA certificate..."
-cp /certs/deployment/ca/K8S.Test.Root.CA.pfx /usr/local/share/ca-certificates/K8S.Test.Root.CA.pfx || true
-cp /certs/deployment/ca/K8S.Test.Root.CA.cer /usr/local/share/ca-certificates/K8S.Test.Root.CA.crt || true
+CERT_DIR="/certs/deployment/ca"
+DEST_DIR="/usr/local/share/ca-certificates"
+
+echo ">> Installing CA certs from $CERT_DIR ..."
+
+# Convert everything into .crt PEM format (overwrite if needed)
+for file in "$CERT_DIR"/*; do
+    name=$(basename "$file")
+    openssl x509 -in "$file" -out "$DEST_DIR/$name.crt" -inform DER 2>/dev/null || \
+    cp "$file" "$DEST_DIR/$name.crt"
+done
 
 echo ">> Updating system certificates..."
-update-ca-certificates || true
+update-ca-certificates
 
-echo ">> Certificates installed successfully."
+echo ">> Done."
