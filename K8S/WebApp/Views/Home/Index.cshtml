@@ -22,6 +22,11 @@
                 Call API
             </button>
         </form>
+        <form asp-action="CallApi2" asp-controller="Home" method="post">
+            <button type="submit" class="btn btn-success">
+                Call API(admin)
+            </button>
+        </form>
     </p>
 
     @if (ViewBag.ApiResponse != null)

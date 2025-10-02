@@ -44,7 +44,7 @@ spec:
   selector:
     app: webapp
   ports:
-    - port: 443           # cluster-wide port
+    - port: 7273           # cluster-wide port
       targetPort: 7273    # container port
       nodePort: 30773     # external port (must be between 30000–32767)
   type: NodePort

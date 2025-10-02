@@ -25,7 +25,7 @@ namespace WebApp.Controllers
         [HttpPost]
         public IActionResult GoToWebApp()
         {
-            return Redirect("https://admin.dev:7294/");
+            return Redirect("https://admin-service.frontend.svc.cluster.local:7294/");
         }
 
         [HttpPost]
@@ -34,7 +34,7 @@ namespace WebApp.Controllers
             try
             {
                 var client = _httpClientFactory.CreateClient();
-                var response = await client.GetStringAsync("https://api.dev:7023/api");
+                var response = await client.GetStringAsync("https://api-service.backend.svc.cluster.local:7023/api");
 
                 return RedirectToAction("Index", new { apiResponse = response });
             }
@@ -44,7 +44,22 @@ namespace WebApp.Controllers
                 return RedirectToAction("Index", new { apiResponse = "Error: " + ex.Message });
             }
         }
+        [HttpPost]
+        public async Task<IActionResult> CallApi2()
+        {
+            try
+            {
+                var client = _httpClientFactory.CreateClient();
+                var response = await client.GetStringAsync("https://admin-service.frontend.svc.cluster.local:7294/api");
 
+                return RedirectToAction("Index", new { apiResponse = response });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error calling API");
+                return RedirectToAction("Index", new { apiResponse = "Error: " + ex.Message });
+            }
+        }
         public IActionResult Privacy()
         {
             return View();

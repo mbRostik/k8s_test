@@ -52,7 +52,7 @@ spec:
   selector:
     app: admin
   ports:
-    - port: 443
+    - port: 7294
       targetPort: 7294
       nodePort: 30794
   type: NodePort

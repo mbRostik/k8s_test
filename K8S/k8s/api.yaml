@@ -44,7 +44,7 @@ spec:
   selector:
     app: api
   ports:
-    - port: 443
+    - port: 7023
       targetPort: 7023
       nodePort: 30723
   type: NodePort
