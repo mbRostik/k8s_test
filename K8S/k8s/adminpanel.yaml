@@ -18,7 +18,7 @@ spec:
           image: mbrostik/k8stest:AdminPanel-${SHORT_SHA}
           imagePullPolicy: Always
           ports:
-            - containerPort: 7294
+            - containerPort: 30794
           command: ["dotnet", "AdminPanel.dll"]
           args:
             - |
@@ -52,7 +52,7 @@ spec:
   selector:
     app: admin
   ports:
-    - port: 7294
-      targetPort: 7294
+    - port: 30794
+      targetPort: 30794
       nodePort: 30794
   type: NodePort

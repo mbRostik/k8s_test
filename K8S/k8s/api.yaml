@@ -18,7 +18,7 @@ spec:
           image: mbrostik/k8stest:API-${SHORT_SHA}
           imagePullPolicy: Always
           ports:
-            - containerPort: 7023
+            - containerPort: 30723
           command: ["dotnet", "API.dll"]
           volumeMounts:
             - name: api-tls
@@ -44,7 +44,7 @@ spec:
   selector:
     app: api
   ports:
-    - port: 7023
-      targetPort: 7023
+    - port: 30723
+      targetPort: 30723
       nodePort: 30723
   type: NodePort

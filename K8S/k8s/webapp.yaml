@@ -18,7 +18,7 @@ spec:
           image: mbrostik/k8stest:WebApp-${SHORT_SHA}
           imagePullPolicy: Always
           ports:
-            - containerPort: 7273
+            - containerPort: 30773
           command: ["dotnet", "WebApp.dll"]
           volumeMounts:
             - name: webapp-tls
@@ -44,7 +44,7 @@ spec:
   selector:
     app: webapp
   ports:
-    - port: 7273           # cluster-wide port
-      targetPort: 7273    # container port
+    - port: 30773           # cluster-wide port
+      targetPort: 30773    # container port
       nodePort: 30773     # external port (must be between 30000–32767)
   type: NodePort
