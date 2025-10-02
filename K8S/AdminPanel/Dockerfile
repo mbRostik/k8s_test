@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-noble AS base
 WORKDIR /app
 EXPOSE 5185
-EXPOSE 7294
+EXPOSE 30794
 
 USER root
 RUN apt-get update && apt-get install -y --no-install-recommends \

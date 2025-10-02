@@ -25,7 +25,7 @@ namespace WebApp.Controllers
         [HttpPost]
         public IActionResult GoToWebApp()
         {
-            return Redirect("https://admin-service.frontend.svc.cluster.local:7294/");
+            return Redirect("https://admin-service.frontend.svc.cluster.local:30794/");
         }
 
         [HttpPost]
@@ -34,7 +34,7 @@ namespace WebApp.Controllers
             try
             {
                 var client = _httpClientFactory.CreateClient();
-                var response = await client.GetStringAsync("https://api-service.backend.svc.cluster.local:7023/api");
+                var response = await client.GetStringAsync("https://api-service.backend.svc.cluster.local:30723/api");
 
                 return RedirectToAction("Index", new { apiResponse = response });
             }
@@ -50,7 +50,7 @@ namespace WebApp.Controllers
             try
             {
                 var client = _httpClientFactory.CreateClient();
-                var response = await client.GetStringAsync("https://admin-service.frontend.svc.cluster.local:7294/api");
+                var response = await client.GetStringAsync("https://admin-service.frontend.svc.cluster.local:30794/api");
 
                 return RedirectToAction("Index", new { apiResponse = response });
             }
