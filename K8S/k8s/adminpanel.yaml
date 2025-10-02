@@ -30,14 +30,6 @@ spec:
               ls -l /certs/deployment/ca && \
               echo ">> Starting AdminPanel..." && \
               exec dotnet AdminPanel.dll
-          args:
-            - |
-              echo ">> Listing certs..." && \
-              ls -l /certs/deployment && \
-              echo ">> Listing CA certs..." && \
-              ls -l /certs/deployment/ca && \
-              echo ">> Starting AdminApp..." && \
-              dotnet AdminPanel.dll
           volumeMounts:
             - name: admin-tls
               mountPath: /certs/deployment
