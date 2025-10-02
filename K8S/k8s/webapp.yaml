@@ -19,21 +19,24 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 30773
-      command: ["/bin/sh", "-c"]
-      args:
-        - |
-          echo ">> Running cert install..." && \
-          chmod +x /app/install-certs.sh && \
-          /app/install-certs.sh && \
-          echo ">> Starting WebApp..." && \
-          exec dotnet WebApp.dll
-      volumeMounts:
-        - name: webapp-tls
-          mountPath: /certs/deployment
-          readOnly: true
-        - name: ca-tls
-          mountPath: /certs/deployment/ca
-          readOnly: true
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo ">> Running cert install..." && \
+              chmod +x /app/install-certs.sh && \
+              /app/install-certs.sh && \
+              echo ">> Listing certs..." && \
+              ls -l /certs/deployment && \
+              ls -l /certs/deployment/ca && \
+              echo ">> Starting WebApp..." && \
+              exec dotnet WebApp.dll
+          volumeMounts:
+            - name: webapp-tls
+              mountPath: /certs/deployment
+              readOnly: true
+            - name: ca-tls
+              mountPath: /certs/deployment/ca
+              readOnly: true
       volumes:
         - name: webapp-tls
           secret:
@@ -51,7 +54,7 @@ spec:
   selector:
     app: webapp
   ports:
-    - port: 30773           # cluster-wide port
-      targetPort: 30773    # container port
-      nodePort: 30773     # external port (must be between 30000–32767)
+    - port: 30773           # cluster-wide port (inside cluster)
+      targetPort: 30773     # container port (app listens on)
+      nodePort: 30773       # external port (on node)
   type: NodePort
