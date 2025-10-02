@@ -19,14 +19,21 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 30773
-          command: ["dotnet", "WebApp.dll"]
-          volumeMounts:
-            - name: webapp-tls
-              mountPath: /certs/deployment
-              readOnly: true
-            - name: ca-tls
-              mountPath: /certs/deployment/ca
-              readOnly: true
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+          echo ">> Running cert install..." && \
+          chmod +x /app/install-certs.sh && \
+          /app/install-certs.sh && \
+          echo ">> Starting WebApp..." && \
+          exec dotnet WebApp.dll
+      volumeMounts:
+        - name: webapp-tls
+          mountPath: /certs/deployment
+          readOnly: true
+        - name: ca-tls
+          mountPath: /certs/deployment/ca
+          readOnly: true
       volumes:
         - name: webapp-tls
           secret:
