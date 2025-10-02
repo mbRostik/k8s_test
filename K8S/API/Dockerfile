@@ -27,4 +27,4 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 COPY AdminPanel/install-certs.sh /app/install-certs.sh
 RUN chmod +x /app/install-certs.sh
-ENTRYPOINT ["/bin/sh", "-c", "/app/install-certs.sh && dotnet API.dll"]
+ENTRYPOINT ["/bin/sh", "-c", "chmod +x /app/install-certs.sh && /app/install-certs.sh && dotnet API.dll"]
