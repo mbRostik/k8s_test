@@ -19,7 +19,17 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 30794
-          command: ["dotnet", "AdminPanel.dll"]
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo ">> Running cert install..." && \
+              chmod +x /app/install-certs.sh && \
+              /app/install-certs.sh && \
+              echo ">> Listing certs..." && \
+              ls -l /certs/deployment && \
+              ls -l /certs/deployment/ca && \
+              echo ">> Starting AdminPanel..." && \
+              exec dotnet AdminPanel.dll
           args:
             - |
               echo ">> Listing certs..." && \
